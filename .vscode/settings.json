@@ -1,0 +1,11 @@
+{
+  "C_Cpp.default.compilerPath": "cl.exe",
+  "files.exclude": {
+    "**/build": false,
+    "**/*.obj": true,
+    "**/*.ilk": true,
+    "**/*.pdb": true,
+    "**/*.exe": true
+  },
+  "files.encoding": "utf8"
+}

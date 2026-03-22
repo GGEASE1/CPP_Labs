@@ -1,0 +1,35 @@
+# Build folder
+build/
+
+# MSVC generated files
+*.obj
+*.exe
+*.ilk
+*.pdb
+*.idb
+*.log
+
+# Visual Studio Code
+.vscode/*
+
+# Исключение: оставить настройки (если хочешь)
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Temporary files
+*.tmp
+*.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Debug / Release folders (на всякий)
+Debug/
+Release/
+
+# CMake (если вдруг будешь использовать)
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
