@@ -5,23 +5,15 @@ using namespace std;
 // Прототипы функций
 void inputArray(int* a, int n);
 void printArray(int* a, int n);
-void copyArray(int* from, int* to, int n);
+void copyArray(int* a, int* b, int n);
 void swapValues(int& x, int& y);
 
 void selectionSort(int* a, int n);
 void bubbleSort(int* a, int n);
 void quickSort(int* a, int left, int right);
-
-void sortEvenOdd(int* a, int n);
-void sortPartAsc(int* a, int left, int right);
-void sortPartDesc(int* a, int left, int right);
-
-void taskSelection(int* a, int n);
-void taskBubble(int* a, int n);
-void taskQuick(int* a, int n);
-void taskEvenOdd(int* a, int n);
-void taskPartAsc(int* a, int n);
-void taskPartDesc(int* a, int n);
+void evenOddSort(int* a, int n);
+void partSortAsc(int* a, int left, int right);
+void partSortDesc(int* a, int left, int right);
 
 int main()
 {
@@ -39,6 +31,8 @@ int main()
     }
 
     int* a = new int[n];
+    int* b = new int[n];
+
     inputArray(a, n);
 
     int choice;
@@ -60,23 +54,88 @@ int main()
         cout << "Выберите пункт: ";
         cin >> choice;
 
+        copyArray(a, b, n);
+
         switch (choice)
         {
-        case 1: printArray(a, n); break;
-        case 2: taskSelection(a, n); break;
-        case 3: taskBubble(a, n); break;
-        case 4: taskQuick(a, n); break;
-        case 5: taskEvenOdd(a, n); break;
-        case 6: taskPartAsc(a, n); break;
-        case 7: taskPartDesc(a, n); break;
-        case 8: inputArray(a, n); break;
-        case 0: cout << "\nПрограмма завершена.\n"; break;
-        default: cout << "\nОшибка: такого пункта нет.\n";
+        case 1:
+            printArray(a, n);
+            break;
+
+        case 2:
+            selectionSort(b, n);
+            cout << "\nСортировка методом выбора:\n";
+            printArray(b, n);
+            break;
+
+        case 3:
+            bubbleSort(b, n);
+            cout << "\nСортировка методом пузырька:\n";
+            printArray(b, n);
+            break;
+
+        case 4:
+            quickSort(b, 0, n - 1);
+            cout << "\nБыстрая сортировка:\n";
+            printArray(b, n);
+            break;
+
+        case 5:
+            evenOddSort(b, n);
+            cout << "\nЧётные по возрастанию, нечётные по убыванию:\n";
+            printArray(b, n);
+            break;
+
+        case 6:
+        {
+            int left, right;
+            cout << "Введите N1 и N2: ";
+            cin >> left >> right;
+
+            if (left < 0 || right >= n || left > right)
+                cout << "Ошибка: неверный интервал.\n";
+            else
+            {
+                partSortAsc(b, left, right);
+                cout << "\nСортировка части массива по возрастанию:\n";
+                printArray(b, n);
+            }
+            break;
+        }
+
+        case 7:
+        {
+            int left, right;
+            cout << "Введите N1 и N2: ";
+            cin >> left >> right;
+
+            if (left < 0 || right >= n || left > right)
+                cout << "Ошибка: неверный интервал.\n";
+            else
+            {
+                partSortDesc(b, left, right);
+                cout << "\nСортировка части массива по убыванию:\n";
+                printArray(b, n);
+            }
+            break;
+        }
+
+        case 8:
+            inputArray(a, n);
+            break;
+
+        case 0:
+            cout << "\nПрограмма завершена.\n";
+            break;
+
+        default:
+            cout << "\nОшибка: такого пункта нет.\n";
         }
 
     } while (choice != 0);
 
     delete[] a;
+    delete[] b;
     return 0;
 }
 
@@ -91,17 +150,17 @@ void inputArray(int* a, int n)
 // Вывод массива
 void printArray(int* a, int n)
 {
-    cout << "\nМассив:\n";
+    cout << "Массив: ";
     for (int i = 0; i < n; i++)
         cout << a[i] << " ";
     cout << endl;
 }
 
 // Копирование массива
-void copyArray(int* from, int* to, int n)
+void copyArray(int* a, int* b, int n)
 {
     for (int i = 0; i < n; i++)
-        to[i] = from[i];
+        b[i] = a[i];
 }
 
 // Обмен двух элементов
@@ -126,7 +185,7 @@ void selectionSort(int* a, int n)
     }
 }
 
-// Сортировка методом пузырька
+// Сортировка пузырьком
 void bubbleSort(int* a, int n)
 {
     for (int i = 0; i < n - 1; i++)
@@ -160,31 +219,28 @@ void quickSort(int* a, int left, int right)
 }
 
 // Чётные по возрастанию, нечётные по убыванию
-void sortEvenOdd(int* a, int n)
+void evenOddSort(int* a, int n)
 {
     int* even = new int[n];
     int* odd = new int[n];
-    int evenCount = 0;
-    int oddCount = 0;
+    int evenCount = 0, oddCount = 0;
 
-    // Разделяем массив на чётные и нечётные
+    // Разделяем элементы
     for (int i = 0; i < n; i++)
     {
-        if (a[i] % 2 == 0)
-            even[evenCount++] = a[i];
-        else
-            odd[oddCount++] = a[i];
+        if (a[i] % 2 == 0) even[evenCount++] = a[i];
+        else odd[oddCount++] = a[i];
     }
 
     // Сортируем чётные по возрастанию
     bubbleSort(even, evenCount);
 
-    // Сортируем нечётные по убыванию
+    // Сортируем нечётные по возрастанию, потом переворачиваем
     bubbleSort(odd, oddCount);
     for (int i = 0; i < oddCount / 2; i++)
         swapValues(odd[i], odd[oddCount - 1 - i]);
 
-    // Собираем итоговый массив: сначала чётные, потом нечётные
+    // Собираем массив заново
     for (int i = 0; i < evenCount; i++)
         a[i] = even[i];
 
@@ -196,7 +252,7 @@ void sortEvenOdd(int* a, int n)
 }
 
 // Сортировка части массива по возрастанию
-void sortPartAsc(int* a, int left, int right)
+void partSortAsc(int* a, int left, int right)
 {
     for (int i = left; i < right; i++)
         for (int j = left; j < right - (i - left); j++)
@@ -205,106 +261,10 @@ void sortPartAsc(int* a, int left, int right)
 }
 
 // Сортировка части массива по убыванию
-void sortPartDesc(int* a, int left, int right)
+void partSortDesc(int* a, int left, int right)
 {
     for (int i = left; i < right; i++)
         for (int j = left; j < right - (i - left); j++)
             if (a[j] < a[j + 1])
                 swapValues(a[j], a[j + 1]);
-}
-
-void taskSelection(int* a, int n)
-{
-    int* b = new int[n];
-    copyArray(a, b, n);
-    selectionSort(b, n);
-
-    cout << "\nСортировка методом выбора:\n";
-    printArray(b, n);
-
-    delete[] b;
-}
-
-void taskBubble(int* a, int n)
-{
-    int* b = new int[n];
-    copyArray(a, b, n);
-    bubbleSort(b, n);
-
-    cout << "\nСортировка методом пузырька:\n";
-    printArray(b, n);
-
-    delete[] b;
-}
-
-void taskQuick(int* a, int n)
-{
-    int* b = new int[n];
-    copyArray(a, b, n);
-    quickSort(b, 0, n - 1);
-
-    cout << "\nБыстрая сортировка:\n";
-    printArray(b, n);
-
-    delete[] b;
-}
-
-void taskEvenOdd(int* a, int n)
-{
-    int* b = new int[n];
-    copyArray(a, b, n);
-    sortEvenOdd(b, n);
-
-    cout << "\nЧётные по возрастанию, нечётные по убыванию:\n";
-    printArray(b, n);
-
-    delete[] b;
-}
-
-void taskPartAsc(int* a, int n)
-{
-    int left, right;
-    cout << "\nВведите начальный индекс N1: ";
-    cin >> left;
-    cout << "Введите конечный индекс N2: ";
-    cin >> right;
-
-    if (left < 0 || right >= n || left > right)
-    {
-        cout << "Ошибка: неверный интервал.\n";
-        return;
-    }
-
-    int* b = new int[n];
-    copyArray(a, b, n);
-    sortPartAsc(b, left, right);
-
-    cout << "\nСортировка части массива по возрастанию:\n";
-    printArray(b, n);
-
-    delete[] b;
-}
-
-void taskPartDesc(int* a, int n)
-{
-    int left, right;
-    cout << "\nВведите начальный индекс N1: ";
-    cin >> left;
-    cout << "Введите конечный индекс N2: ";
-    cin >> right;
-
-    if (left < 0 || right >= n || left > right)
-    {
-        cout << "Ошибка: неверный интервал.\n";
-        return;
-    }
-
-    int* b = new int[n];
-    copyArray(a, b, n);
-    sortPartDesc(b, left, right);
-
-    cout << "\nСортировка части массива по убыванию:\n";
-    printArray(b, n);
-
-    delete[] b;
 }
