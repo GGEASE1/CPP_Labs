@@ -12,7 +12,7 @@ build/
 # Visual Studio Code
 .vscode/*
 
-# Исключение: оставить настройки (если хочешь)
+# Исключение: оставить настройки 
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -25,11 +25,11 @@ build/
 .DS_Store
 Thumbs.db
 
-# Debug / Release folders (на всякий)
+# Debug / Release folders 
 Debug/
 Release/
 
-# CMake (если вдруг будешь использовать)
+# CMake
 CMakeFiles/
 CMakeCache.txt
 cmake-build-*/
