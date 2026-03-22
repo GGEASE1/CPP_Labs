@@ -13,7 +13,7 @@ int power(int x, int n)
 void task1()
 {
     int x, n;
-    cout << "\n--- Степени числа ---\nВведите число и максимальную степень: ";
+    cout << "\n--- Степени числа ---\nВведите число и степень: ";
     cin >> x >> n;
 
     for (int i = 0; i <= n; i++)
@@ -27,7 +27,11 @@ void task2()
     cout << "\n--- Указатели ---\nРазмер массива: ";
     cin >> n;
 
-    if (n <= 0) return cout << "Ошибка\n", void();
+    if (n <= 0)
+    {
+        cout << "Ошибка\n";
+        return;
+    }
 
     int* a = new int[n];
     cout << "Введите элементы:\n";
@@ -36,8 +40,7 @@ void task2()
     int* p1 = a;
     int* p2 = &a[n - 1];
 
-    cout << "\np1: " << p1 << " -> " << *p1 << endl;
-
+    cout << "\np1: " << *p1 << endl;
     if (n > 1) cout << "p1++ -> " << *(++p1) << endl;
 
     cout << "p2: " << *p2 << endl;
@@ -49,18 +52,24 @@ void task2()
 // ===== ЗАДАНИЕ 3 =====
 void swapVal(int a, int b)
 {
-    int t = a; a = b; b = t;
-    cout << "Внутри (по значению): a=" << a << " b=" << b << endl;
+    int t = a; 
+    a = b;
+    b = t;
+    cout << "Внутри (value): " << a << " " << b << endl;
 }
 
 void swapPtr(int* a, int* b)
 {
-    int t = *a; *a = *b; *b = t;
+    int t = *a; 
+    *a = *b; 
+    *b = t;
 }
 
 void swapRef(int& a, int& b)
 {
-    int t = a; a = b; b = t;
+    int t = a; 
+    a = b; 
+    b = t;
 }
 
 void task3()
@@ -70,6 +79,8 @@ void task3()
     cin >> a >> b;
 
     cout << "\nДо: " << a << " " << b << endl;
+    cout << "(value не меняет оригинал)\n";
+
     swapVal(a, b);
     cout << "После value: " << a << " " << b << endl;
 
@@ -92,7 +103,7 @@ int main()
         cout << "\n=== ЛР1 ===\n1. Степень\n2. Указатели\n3. Обмен\n0. Выход\n> ";
         cin >> c;
 
-        if (c == 1) task1();
+        if      (c == 1) task1();
         else if (c == 2) task2();
         else if (c == 3) task3();
 
